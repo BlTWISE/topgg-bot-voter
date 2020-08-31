@@ -25,7 +25,7 @@ function vote(token) {
 
                 executablePath: "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
 
-                headless: false, // Open chrome or not(true means that is off), recommended to be false 
+                headless: false, // Open chrome or not(true means that is off), recommended to be false
                 slowMo: 10
             })
             .then(async (browser) => {
@@ -67,14 +67,14 @@ function vote(token) {
                     login(_);
                 }, token);
 
-                await page.waitForNavigation({ waitUntil: "networkidle0" });
+                const logged = await page.waitForNavigation({ waitUntil: "networkidle0" }).catch((e) => null);
 
-                if (page.url() === "https://discord.com/login") return resolve(discordLog.fail("[COULDN'T CONNECT TO DISCORD]"));
+                if (page.url() === "https://discord.com/login" || !logged) return resolve(discordLog.fail("[COULDN'T CONNECT TO DISCORD]"));
 
                 discordLog.succeed("[LOGGING INTO DISCORD]");
 
                 const oauth2Log = logger({
-                    text: "[LOGGED INTO OAUTH2]",
+                    text: "[LOGGING INTO OAUTH2]",
                     spinner
                 }).start();
 

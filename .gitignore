@@ -108,3 +108,5 @@ package-lock.json
 config.js
 
 prints/*
+
+.vscode/

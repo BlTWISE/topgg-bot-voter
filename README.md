@@ -1,6 +1,6 @@
 ## Top.gg Bot Voter
 
-A simple Top.gg bot voter made with puppeteer and love.
+A simple Top.gg bot voter made with puppeteer.
 
 You can use this application to get inumerous votes on your bot on [Top.gg](https://top.gg) but you will require `Discord User tokens`.
 

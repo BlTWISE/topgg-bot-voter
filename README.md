@@ -24,7 +24,7 @@ I haven't tested it out yet, but you can use [`cron`](https://www.npmjs.com/pack
 const { CronJob } = require("cron");
 
 const job = new CronJob(
-    "0 */12 * * * *",
+    "* */12 * * *",
     () => {
         console.log("You will see this message every 12 hours");
         //...

@@ -23,7 +23,7 @@ function vote(token) {
 
                 // For Windows
 
-                executablePath: "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+                executablePath: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
 
                 headless: false, // Open chrome or not(true means that is off), recommended to be false
                 slowMo: 10
@@ -99,9 +99,16 @@ function vote(token) {
                     spinner
                 }).start();
 
-                const btn = await page.evaluate((_) => {
+                const btn = await page.evaluate(() => {
                     if (document.querySelector("#votingvoted")) {
-                        voting.upvote(config.botID, this, '', '6LeA8rQUAAAAAFURdAirufNUOk5nU8nIJklS1MP4', '/api/vote')
+                        eval(
+                            document
+                                .querySelector("#votingvoted")
+                                .outerHTML.match(/onclick="(.+)"/g)
+                                .join("")
+                                .replace('onclick="', "")
+                                .replace('"', "")
+                        );
                         return true;
                     } else return false;
                 });

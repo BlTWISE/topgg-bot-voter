@@ -101,7 +101,7 @@ function vote(token) {
 
                 const btn = await page.evaluate((_) => {
                     if (document.querySelector("#votingvoted")) {
-                        document.querySelector("#votingvoted").click();
+                        voting.upvote(config.botID, this, '', '6LeA8rQUAAAAAFURdAirufNUOk5nU8nIJklS1MP4', '/api/vote')
                         return true;
                     } else return false;
                 });

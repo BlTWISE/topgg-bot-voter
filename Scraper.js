@@ -69,7 +69,10 @@ function vote(token) {
 
                 const logged = await page.waitForNavigation({ waitUntil: "networkidle0" }).catch((e) => null);
 
-                if (page.url() === "https://discord.com/login" || !logged) return resolve(discordLog.fail("[COULDN'T CONNECT TO DISCORD]"));
+                if (page.url() === "https://discord.com/login" || !logged) {
+                    await browser.close();
+                    return resolve(discordLog.fail("[COULDN'T CONNECT TO DISCORD]"));
+                }
 
                 discordLog.succeed("[LOGGING INTO DISCORD]");
 
@@ -113,7 +116,10 @@ function vote(token) {
                     } else return false;
                 });
 
-                if (!btn) return resolve(voteLog.fail("[BLOCKED TOKEN]"));
+                if (!btn) {
+                    await browser.close();
+                    return resolve(voteLog.fail("[BLOCKED TOKEN]"));
+                }
 
                 await page.waitFor(3000);
 
@@ -123,8 +129,10 @@ function vote(token) {
 
                 if (text != "You already voted for this bot. Try again in 12 hours.") {
                     voteLog.succeed(`[VOTED TO ${config.botID}]`);
-                } else if (!text) return resolve(voteLog.fail(`[BLOCKED TOKEN]`));
-                else {
+                } else if (!text) {
+                     await browser.close();
+                     return resolve(voteLog.fail(`[BLOCKED TOKEN]`));
+                } else {
                     voteLog.fail(`[ALREADY VOTED TO ${config.botID}]`);
                 }
 

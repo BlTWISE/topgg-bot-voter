@@ -25,7 +25,7 @@ function vote(token) {
 
                 executablePath: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
 
-                headless: false, // Open chrome or not(true means that is off), recommended to be false
+                headless: true, // Open chrome or not(true means that is off), recommended to be false
                 slowMo: 10
             })
             .then(async (browser) => {
@@ -121,7 +121,7 @@ function vote(token) {
                     return resolve(voteLog.fail("[BLOCKED TOKEN]"));
                 }
 
-                await page.waitFor(3000);
+                await page.waitForTimeout(3000);
 
                 const text = await page.evaluate((_) => {
                     return document.querySelector("#votingvoted").innerText;
@@ -130,8 +130,8 @@ function vote(token) {
                 if (text != "You already voted for this bot. Try again in 12 hours.") {
                     voteLog.succeed(`[VOTED TO ${config.botID}]`);
                 } else if (!text) {
-                     await browser.close();
-                     return resolve(voteLog.fail(`[BLOCKED TOKEN]`));
+                    await browser.close();
+                    return resolve(voteLog.fail(`[BLOCKED TOKEN]`));
                 } else {
                     voteLog.fail(`[ALREADY VOTED TO ${config.botID}]`);
                 }

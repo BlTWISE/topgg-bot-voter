@@ -1,4 +1,6 @@
-⚠️ Disclaimer: Using too many users may get yours account and your bot banned from [Top.gg](https://top.gg)
+##⚠️ Disclaimer
+
+Using too many users may get yours account and your bot banned from [Top.gg](https://top.gg). Be careful!
 
 ## Top.gg Bot Voter
 

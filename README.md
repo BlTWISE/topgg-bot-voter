@@ -1,3 +1,5 @@
+# ⚠️ Disclaimer: Using too many users may get yours account and your bot banned from [Top.gg](https://top.gg)
+
 ## Top.gg Bot Voter
 
 A simple Top.gg bot voter made with puppeteer.

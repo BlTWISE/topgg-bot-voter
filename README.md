@@ -2,7 +2,7 @@
 
 Using too many users may get yours account and your bot banned from [Top.gg](https://top.gg). Be careful!
 
-## Top.gg Bot Voter
+## Top.gg bot voter
 
 A simple Top.gg bot voter made with puppeteer.
 

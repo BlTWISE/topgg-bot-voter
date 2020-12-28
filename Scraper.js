@@ -23,7 +23,7 @@ function vote(token) {
 
                 // For Windows
 
-                executablePath: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+                executablePath: config.executablePath,
 
                 headless: false, // Open chrome or not(true means that is off), recommended to be false
                 slowMo: 10

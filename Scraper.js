@@ -83,8 +83,11 @@ function vote(token) {
 
                 await page.waitForXPath("//div[contains(., 'Authorize')]");
 
-                const [authorize] = await page.$x("//div[contains(., 'Authorize')]");
-                await authorize.click();
+                await page.evaluate((_) => {
+                    Array.from(document.querySelectorAll("div"))
+                        .filter((e) => e.innerText === "Authorize")[0]
+                        .parentElement.click();
+                });
 
                 const oauthed = await page.waitForNavigation({ waitUntil: "networkidle0" }).catch((e) => null);
 

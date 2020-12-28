@@ -81,7 +81,7 @@ function vote(token) {
                     spinner
                 }).start();
 
-                await page.waitForNavigation({ waitUntil: "networkidle0" });
+                await page.waitForSelector("#app-mount");
 
                 await page.evaluate((_) => {
                     Array.from(document.querySelectorAll("div"))

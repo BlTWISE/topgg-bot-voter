@@ -81,8 +81,8 @@ function vote(token) {
                     spinner
                 }).start();
 
-                await page.waitForSelector("#app-mount");
-
+                await page.waitForXPath("//div[contains(., 'Authorize')]");
+            
                 await page.evaluate((_) => {
                     Array.from(document.querySelectorAll("div"))
                         .filter((e) => e.innerText === "Authorize")[0]

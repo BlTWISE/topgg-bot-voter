@@ -57,7 +57,11 @@ function vote(token) {
                 }).start();
 
                 await page.evaluate((_) => {
-                    Object.values(webpackJsonp.push([[],{['']:(_,e,r)=>{e.cache=r.c}},[['']]]).cache).find(m=>m.exports&&m.exports.default&&m.exports.default.login!==void 0).exports.default.loginToken(_)
+                    function login(token) {
+                        document.body.appendChild(document.createElement`iframe`).contentWindow.localStorage.token = `"${token}"`;
+                        location.reload();
+                    }
+                    login(_);
                 }, token);
 
                 const logged = await page.waitForNavigation({ waitUntil: "networkidle0" }).catch((e) => null);

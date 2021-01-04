@@ -23,9 +23,7 @@ function vote(token) {
 
                 // For Windows
 
-                executablePath: config.executablePath,
-
-                headless: false, // Open chrome or not(true means that is off), recommended to be false
+                headless: true, // Opens chrome or not(true means that is off), recommended to be false
                 slowMo: 10
             })
             .then(async (browser) => {
@@ -33,21 +31,12 @@ function vote(token) {
 
                 const page = await browser.newPage();
 
-                await page.setViewport({
-                    width: 1920,
-                    height: 1080,
-                    deviceScaleFactor: 1
-                });
-
                 const connectLog = logger({
                     text: "[CONNECTING TO DISCORD]",
                     spinner
                 }).start();
 
-                await page.goto(
-                    "https://discord.com/login?redirect_to=%2Foauth2%2Fauthorize%3Fclient_id%3D264434993625956352%26scope%3Didentify%26redirect_uri%3Dhttps%253A%252F%252Ftop.gg%252Flogin%252Fcallback%26response_type%3Dcode",
-                    { waitUntil: "networkidle0" }
-                );
+                await page.goto("https://discord.com/login?redirect_to=%2Foauth2%2Fauthorize%3Fclient_id%3D264434993625956352%26scope%3Didentify%26redirect_uri%3Dhttps%253A%252F%252Ftop.gg%252Flogin%252Fcallback%26response_type%3Dcode", { waitUntil: "networkidle0" });
 
                 connectLog.succeed("[CONNECTED TO DISCORD]");
 
@@ -57,11 +46,19 @@ function vote(token) {
                 }).start();
 
                 await page.evaluate((_) => {
-                    function login(token) {
-                        document.body.appendChild(document.createElement`iframe`).contentWindow.localStorage.token = `"${token}"`;
-                        location.reload();
-                    }
-                    login(_);
+                    Object.values(
+                        webpackJsonp.push([
+                            [],
+                            {
+                                [""]: (_, e, r) => {
+                                    e.cache = r.c;
+                                }
+                            },
+                            [[""]]
+                        ]).cache
+                    )
+                        .find((m) => m.exports && m.exports.default && m.exports.default.login !== void 0)
+                        .exports.default.loginToken(_);
                 }, token);
 
                 const logged = await page.waitForNavigation({ waitUntil: "networkidle0" }).catch((e) => null);
@@ -78,19 +75,17 @@ function vote(token) {
                     spinner
                 }).start();
 
-                await page.waitForXPath("//div[contains(., 'Authorize')]");
+                await page.waitForSelector(".button-38aScr.lookFilled-1Gx00P.colorBrand-3pXr91.sizeMedium-1AC_Sl.grow-q77ONN");
 
                 await page.evaluate((_) => {
-                    Array.from(document.querySelectorAll("div"))
-                        .filter((e) => e.innerText === "Authorize")[0]
-                        .parentElement.click();
+                    document.querySelector(".button-38aScr.lookFilled-1Gx00P.colorBrand-3pXr91.sizeMedium-1AC_Sl.grow-q77ONN").click();
                 });
 
                 const oauthed = await page.waitForNavigation({ waitUntil: "networkidle0" }).catch((e) => null);
 
-                if(!oauthed) {
+                if (!oauthed) {
                     await browser.close();
-                    return resolve(oauth2Log.fail('[BLOCKED TOKEN]'));
+                    return resolve(oauth2Log.fail("[BLOCKED TOKEN]"));
                 }
 
                 await page.waitForNavigation({ waitUntil: "networkidle0" });
@@ -139,8 +134,6 @@ function vote(token) {
                 } else {
                     voteLog.fail(`[ALREADY VOTED TO ${config.botID}]`);
                 }
-
-                await page.screenshot({ path: `./prints/${token}.png` });
 
                 await browser.close();
 

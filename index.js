@@ -1,10 +1,13 @@
 const vote = require("./Scraper");
-const config = require("./config");
+const fs = require("fs");
 
 (async () => {
     console.clear();
-    for (let i = 0; i < config.tokens.length; i++) {
-        const x = await vote(config.tokens[i]);
+
+    const tokens = fs.readFileSync("./tokens.txt", "utf8").trim().split(/\r\n/g);
+
+    for (let i = 0; i < tokens.length; i++) {
+        const x = await vote(tokens[i]);
         if (x) continue;
         else break;
     }

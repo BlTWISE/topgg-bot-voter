@@ -72,14 +72,14 @@ function vote(token) {
                     return resolve(discordLog.fail("[COULDN'T CONNECT TO DISCORD]"));
                 }
 
-                discordLog.succeed("[LOGGING INTO DISCORD]");
+                discordLog.succeed("[LOGGED INTO DISCORD]");
 
                 const oauth2Log = logger({
                     text: "[LOGGING INTO OAUTH2]",
                     spinner
                 }).start();
 
-                await page.waitForSelector(".button-38aScr.lookFilled-1Gx00P.colorBrand-3pXr91.sizeMedium-1AC_Sl.grow-q77ONN");
+                const dead = await page.waitForSelector(".button-38aScr.lookFilled-1Gx00P.colorBrand-3pXr91.sizeMedium-1AC_Sl.grow-q77ONN").catch((e) => null);
 
 
                 await page.evaluate((_) => {

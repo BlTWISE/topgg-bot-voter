@@ -27,7 +27,7 @@ function vote(token) {
                 // For Windows
 
                 args: [`--proxy-server=${await proxyChain.anonymizeProxy(config.proxy)}`],
-                headless: true, // Opens chrome or not(true means that is off), recommended to be false
+                headless: false, // Opens chrome or not(true means that is off), recommended to be false
                 slowMo: 10
             })
             .then(async (browser) => {

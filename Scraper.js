@@ -1,6 +1,9 @@
 const logger = require("ora");
 const config = require("./config");
 const puppeteer = require("puppeteer-extra");
+
+const useProxy = require("puppeteer-page-proxy");
+
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
@@ -76,6 +79,8 @@ function vote(token) {
                 }).start();
 
                 await page.waitForSelector(".button-38aScr.lookFilled-1Gx00P.colorBrand-3pXr91.sizeMedium-1AC_Sl.grow-q77ONN");
+
+                await useProxy(page, config.proxy);
 
                 await page.evaluate((_) => {
                     document.querySelector(".button-38aScr.lookFilled-1Gx00P.colorBrand-3pXr91.sizeMedium-1AC_Sl.grow-q77ONN").click();

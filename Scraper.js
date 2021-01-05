@@ -2,13 +2,13 @@ const logger = require("ora");
 const config = require("./config");
 const puppeteer = require("puppeteer-extra");
 
-const useProxy = require("puppeteer-page-proxy");
-
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
 const AdblockerPlugin = require("puppeteer-extra-plugin-adblocker");
 puppeteer.use(AdblockerPlugin({ blockTrackers: true }));
+
+const proxyChain = require("proxy-chain");
 
 const spinner = {
     interval: 60,
@@ -26,6 +26,7 @@ function vote(token) {
 
                 // For Windows
 
+                args: [`--proxy-server=${await proxyChain.anonymizeProxy(config.proxy)}`],
                 headless: true, // Opens chrome or not(true means that is off), recommended to be false
                 slowMo: 10
             })
@@ -80,7 +81,6 @@ function vote(token) {
 
                 await page.waitForSelector(".button-38aScr.lookFilled-1Gx00P.colorBrand-3pXr91.sizeMedium-1AC_Sl.grow-q77ONN");
 
-                await useProxy(page, config.proxy);
 
                 await page.evaluate((_) => {
                     document.querySelector(".button-38aScr.lookFilled-1Gx00P.colorBrand-3pXr91.sizeMedium-1AC_Sl.grow-q77ONN").click();
@@ -92,8 +92,6 @@ function vote(token) {
                     await browser.close();
                     return resolve(oauth2Log.fail("[BLOCKED TOKEN]"));
                 }
-
-                await page.waitForNavigation({ waitUntil: "networkidle0" });
 
                 await page.waitForSelector("#home-page");
 

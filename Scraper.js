@@ -10,6 +10,8 @@ puppeteer.use(AdblockerPlugin({ blockTrackers: true }));
 
 const proxyChain = require("proxy-chain");
 
+const URL = "https://discord.com/login?redirect_to=%2Foauth2%2Fauthorize%3Fclient_id%3D264434993625956352%26scope%3Didentify%26redirect_uri%3Dhttps%253A%252F%252Ftop.gg%252Flogin%252Fcallback%26response_type%3Dcode";
+
 const spinner = {
     interval: 60,
     frames: ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
@@ -40,7 +42,7 @@ function vote(token) {
                     spinner
                 }).start();
 
-                await page.goto("https://discord.com/login?redirect_to=%2Foauth2%2Fauthorize%3Fclient_id%3D264434993625956352%26scope%3Didentify%26redirect_uri%3Dhttps%253A%252F%252Ftop.gg%252Flogin%252Fcallback%26response_type%3Dcode", { waitUntil: "networkidle0" });
+                await page.goto(URL, { waitUntil: "networkidle0" });
 
                 connectLog.succeed("[CONNECTED TO DISCORD]");
 
@@ -67,7 +69,7 @@ function vote(token) {
 
                 const logged = await page.waitForNavigation({ waitUntil: "networkidle0" }).catch((e) => null);
 
-                if (page.url() === "https://discord.com/login" || !logged) {
+                if (page.url() === URL || !logged) {
                     await browser.close();
                     return resolve(discordLog.fail("[COULDN'T CONNECT TO DISCORD]"));
                 }
@@ -79,8 +81,7 @@ function vote(token) {
                     spinner
                 }).start();
 
-                const dead = await page.waitForSelector(".button-38aScr.lookFilled-1Gx00P.colorBrand-3pXr91.sizeMedium-1AC_Sl.grow-q77ONN").catch((e) => null);
-
+                await page.waitForSelector(".button-38aScr.lookFilled-1Gx00P.colorBrand-3pXr91.sizeMedium-1AC_Sl.grow-q77ONN").catch((e) => null);
 
                 await page.evaluate((_) => {
                     document.querySelector(".button-38aScr.lookFilled-1Gx00P.colorBrand-3pXr91.sizeMedium-1AC_Sl.grow-q77ONN").click();

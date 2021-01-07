@@ -51,6 +51,8 @@ function vote(token) {
                     spinner
                 }).start();
 
+                const loginURL = await page.url();
+
                 await page.evaluate((_) => {
                     Object.values(
                         webpackJsonp.push([
@@ -69,7 +71,7 @@ function vote(token) {
 
                 const logged = await page.waitForNavigation({ waitUntil: "networkidle0" }).catch((e) => null);
 
-                if (page.url() === URL || !logged) {
+                if (page.url() === loginURL || !logged) {
                     await browser.close();
                     return resolve(discordLog.fail("[COULDN'T CONNECT TO DISCORD]"));
                 }

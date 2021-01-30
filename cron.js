@@ -1,7 +1,7 @@
 const { CronJob } = require("cron");
 const vote = require("./Scraper");
-const tokens = fs.readFileSync("./tokens.txt", "utf8").trim().split(/\n/g);
 const fs = require("fs");
+const tokens = fs.readFileSync("./tokens.txt", "utf8").trim().split(/\n/g);
 
 const job = new CronJob(
     "1 */12 * * *",

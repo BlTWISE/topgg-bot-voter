@@ -1,6 +1,6 @@
 ## ⚠️ Disclaimer
 
-Using too many users may get yours account and your bot banned from [Top.gg](https://top.gg). Be careful!
+After a while they fixed the captcha and now you need 2captcha key to use it, as I'm poor and I don't have a key I'm not making a support for it.
 
 ## Top.gg bot voter
 

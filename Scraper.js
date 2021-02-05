@@ -106,17 +106,10 @@ function vote(token) {
                     text: "[VOTING]",
                     spinner
                 }).start();
-
+            
                 const btn = await page.evaluate(() => {
                     if (document.querySelector("#votingvoted")) {
-                        eval(
-                            document
-                                .querySelector("#votingvoted")
-                                .outerHTML.match(/onclick="(.+)"/g)
-                                .join("")
-                                .replace('onclick="', "")
-                                .replace('"', "")
-                        );
+                        grecaptcha.execute()
                         return true;
                     } else return false;
                 });

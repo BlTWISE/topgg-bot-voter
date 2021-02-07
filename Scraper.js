@@ -11,6 +11,12 @@ puppeteer.use(AdblockerPlugin({ blockTrackers: true }));
 const proxyChain = require("proxy-chain");
 
 const URL = "https://discord.com/login?redirect_to=%2Foauth2%2Fauthorize%3Fclient_id%3D264434993625956352%26scope%3Didentify%26redirect_uri%3Dhttps%253A%252F%252Ftop.gg%252Flogin%252Fcallback%26response_type%3Dcode";
+const serverMode = config.serverMode;
+const botID = config.botID;
+const serverID = config.serverID;
+const botModeVotingURL = "https://top.gg/bot/" + botID + "/vote";
+const serverModeVotingURL = "https://top.gg/servers/" + serverID + "/vote";
+var votingURL = botModeVotingURL;
 
 const spinner = {
     interval: 60,
@@ -33,6 +39,9 @@ function vote(token) {
                 slowMo: 10
             })
             .then(async (browser) => {
+				if (serverMode) {
+					votingURL = serverModeVotingURL;
+				}
                 console.log(`[RUNNING AS]: ${token}`);
 
                 const page = await browser.newPage();
@@ -100,16 +109,23 @@ function vote(token) {
 
                 oauth2Log.succeed("[LOGGED INTO OAUTH2]");
 
-                await page.goto(`https://top.gg/bot/${config.botID}/vote`, { waitUntil: "networkidle0" });
+                await page.goto(votingURL, { waitUntil: "networkidle0" });
 
                 const voteLog = logger({
                     text: "[VOTING]",
                     spinner
                 }).start();
-            
+
                 const btn = await page.evaluate(() => {
                     if (document.querySelector("#votingvoted")) {
-                        grecaptcha.execute()
+                        eval(
+                            document
+                                .querySelector("#votingvoted")
+                                .outerHTML.match(/onclick="(.+)"/g)
+                                .join("")
+                                .replace('onclick="', "")
+                                .replace('"', "")
+                        );
                         return true;
                     } else return false;
                 });
